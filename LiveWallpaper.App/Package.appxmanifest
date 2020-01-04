@@ -17,6 +17,11 @@
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="$targetentrypoint$">
       <uap:VisualElements DisplayName="巨应动态壁纸" Description="LiveWallpaper.App" BackgroundColor="transparent" Square150x150Logo="images\Medium\Medium150x150Logo.png" Square44x44Logo="images\AppList\AppList.png">
         <uap:DefaultTile Wide310x150Logo="images\Wide\Wide310x150Logo.png" Square71x71Logo="images\Small\Small71x71Logo.png" Square310x310Logo="images\Large\Large310x310Logo.png">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square150x150Logo"/>
+            <uap:ShowOn Tile="wide310x150Logo"/>
+            <uap:ShowOn Tile="square310x310Logo"/>
+          </uap:ShowNameOnTiles>
         </uap:DefaultTile>
       </uap:VisualElements>
       <Extensions>
