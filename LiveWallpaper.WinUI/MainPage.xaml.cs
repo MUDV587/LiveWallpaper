@@ -1,19 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
+﻿using LiveWallpaper.WinUI.Pages;
+using System;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
 namespace LiveWallpaper.WinUI
 {
@@ -25,6 +13,37 @@ namespace LiveWallpaper.WinUI
         public MainPage()
         {
             this.InitializeComponent();
+        }
+
+        private void nvShell_SelectionChanged(
+            Microsoft.UI.Xaml.Controls.NavigationView sender, 
+            Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
+        {
+            FrameNavigationOptions navOptions = new FrameNavigationOptions();
+            navOptions.TransitionInfoOverride = args.RecommendedNavigationTransitionInfo;
+            if (sender.PaneDisplayMode == Microsoft.UI.Xaml.Controls.NavigationViewPaneDisplayMode.Top)
+            {
+                navOptions.IsNavigationStackEnabled = false;
+            }
+
+            if (args.IsSettingsSelected)
+            {
+                contentFrame.NavigateToType(typeof(SettingsPage), null, navOptions);
+            }
+            else
+            {
+                Type pageType = null;
+                if (args.SelectedItem == nviLocalWallpaper)
+                {
+                    pageType = typeof(LocalWallpaperPage);
+                }
+                else if (args.SelectedItem == nviWallpaperStore)
+                {
+                    pageType = typeof(WallpaperStorePage);
+                }
+                if (pageType != null)
+                    contentFrame.NavigateToType(pageType, null, navOptions);
+            }
         }
     }
 }
