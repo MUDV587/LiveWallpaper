@@ -1,4 +1,5 @@
 ﻿using LiveWallpaper.WinUI.Pages;
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -13,6 +14,13 @@ namespace LiveWallpaper.WinUI
         public MainPage()
         {
             this.InitializeComponent();
+            Loaded += MainPage_Loaded;
+        }
+
+        private void MainPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            if (SystemInformation.IsFirstRun)
+                ToggleThemeTeachingTip1.IsOpen = true;
         }
 
         private void nvShell_SelectionChanged(
@@ -41,6 +49,15 @@ namespace LiveWallpaper.WinUI
                 {
                     pageType = typeof(WallpaperStorePage);
                 }
+                else if (args.SelectedItem == nviAddWallpaper)
+                {
+
+                }
+                else if (args.SelectedItem == nviDownloadWallpaper)
+                {
+
+                }
+
                 if (pageType != null)
                     contentFrame.NavigateToType(pageType, null, navOptions);
             }

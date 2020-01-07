@@ -504,6 +504,7 @@
         </controls:NavigationView.MenuItems>
         <controls:NavigationView.AutoSuggestBox>
             <AutoSuggestBox Width="240"
+                            FontFamily="ms-appx:///Assets/Fonts/SourceHanSansSC-Regular.otf#思源黑体"
                             PlaceholderText="搜索您喜欢的壁纸..."
                             QueryIcon="Find" />
         </controls:NavigationView.AutoSuggestBox>
@@ -511,13 +512,25 @@
             <StackPanel x:Name="FooterStackPanel"
                         Orientation="Horizontal"
                         Visibility="Visible">
-                <controls:NavigationViewItem Icon="Download"
+                <controls:NavigationViewItem x:Name="nviDownloadWallpaper"
+                                             Icon="Download"
                                              Style="{ThemeResource MUX_NavigationViewSettingsItemStyleWhenOnTopPane}"
-                                             ToolTipService.ToolTip="下载" />
-                <controls:NavigationViewItem Icon="Add"
+                                             ToolTipService.ToolTip="下载列表" />
+                <controls:NavigationViewItem x:Name="nviAddWallpaper"
+                                             Icon="Add"
                                              Style="{ThemeResource MUX_NavigationViewSettingsItemStyleWhenOnTopPane}"
-                                             ToolTipService.ToolTip="新增" />
+                                             ToolTipService.ToolTip="新增壁纸" />
+                <controls:TeachingTip x:Name="ToggleThemeTeachingTip1"
+                                      Title="添加壁纸"
+                                      FontFamily="ms-appx:///Assets/Fonts/SourceHanSansSC-Regular.otf#思源黑体"
+                                      Subtitle="从这里新增漂亮的本地壁纸"
+                                      Target="{x:Bind nviAddWallpaper}">
+                    <controls:TeachingTip.IconSource>
+                        <controls:SymbolIconSource Symbol="Refresh" />
+                    </controls:TeachingTip.IconSource>
+                </controls:TeachingTip>
             </StackPanel>
+
         </controls:NavigationView.PaneFooter>
         <Frame x:Name="contentFrame" />
     </controls:NavigationView>
