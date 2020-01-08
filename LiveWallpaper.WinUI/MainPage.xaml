@@ -4,9 +4,22 @@
       xmlns:controls="using:Microsoft.UI.Xaml.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:media="using:Windows.UI.Xaml.Media"
+      xmlns:pages="using:LiveWallpaper.WinUI.Pages"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       mc:Ignorable="d">
     <Page.Resources>
+        <media:AcrylicBrush x:Key="CustomAcrylicInAppBrush"
+                            BackgroundSource="Backdrop"
+                            FallbackColor="#ff8ff0fb"
+                            TintColor="#ff8ff0fb"
+                            TintOpacity="0.45" />
+        <media:AcrylicBrush x:Key="CustomAcrylicInAppBrush_dark"
+                            BackgroundSource="Backdrop"
+                            FallbackColor="#ff0E5A5C"
+                            TintColor="#ff0E5A5C"
+                            TintOpacity="0.45" />
+
         <Style x:Key="NavigationBackButtonNormalStyle" TargetType="Button">
             <Setter Property="Background" Value="{ThemeResource NavigationViewBackButtonBackground}" />
             <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
@@ -484,54 +497,81 @@
             </Setter>
         </Style>
     </Page.Resources>
-    <controls:NavigationView x:Name="nvShell"
-                             Background="Transparent"
-                             IsBackButtonVisible="Collapsed"
-                             PaneDisplayMode="Top"
-                             SelectedItem="{x:Bind nviLocalWallpaper}"
-                             SelectionChanged="nvShell_SelectionChanged"
-                             SelectionFollowsFocus="Enabled"
-                             Style="{StaticResource NavigationView.Style.Shell}">
-        <controls:NavigationView.MenuItems>
-            <controls:NavigationViewItem x:Name="nviLocalWallpaper"
-                                         Content="本地壁纸"
-                                         FontFamily="ms-appx:///Assets/Fonts/SourceHanSansSC-Bold.otf#思源黑体"
-                                         FontSize="16" />
-            <controls:NavigationViewItem x:Name="nviWallpaperStore"
-                                         Content="壁纸商店"
-                                         FontFamily="ms-appx:///Assets/Fonts/SourceHanSansSC-Bold.otf#思源黑体"
-                                         FontSize="16" />
-        </controls:NavigationView.MenuItems>
-        <controls:NavigationView.AutoSuggestBox>
-            <AutoSuggestBox Width="240"
-                            FontFamily="ms-appx:///Assets/Fonts/SourceHanSansSC-Regular.otf#思源黑体"
-                            PlaceholderText="搜索您喜欢的壁纸..."
-                            QueryIcon="Find" />
-        </controls:NavigationView.AutoSuggestBox>
-        <controls:NavigationView.PaneFooter>
-            <StackPanel x:Name="FooterStackPanel"
-                        Orientation="Horizontal"
-                        Visibility="Visible">
-                <controls:NavigationViewItem x:Name="nviDownloadWallpaper"
-                                             Icon="Download"
-                                             Style="{ThemeResource MUX_NavigationViewSettingsItemStyleWhenOnTopPane}"
-                                             ToolTipService.ToolTip="下载列表" />
-                <controls:NavigationViewItem x:Name="nviAddWallpaper"
-                                             Icon="Add"
-                                             Style="{ThemeResource MUX_NavigationViewSettingsItemStyleWhenOnTopPane}"
-                                             ToolTipService.ToolTip="新增壁纸" />
-                <controls:TeachingTip x:Name="ToggleThemeTeachingTip1"
-                                      Title="添加壁纸"
-                                      FontFamily="ms-appx:///Assets/Fonts/SourceHanSansSC-Regular.otf#思源黑体"
-                                      Subtitle="从这里新增漂亮的本地壁纸"
-                                      Target="{x:Bind nviAddWallpaper}">
+    <Grid>
+        <Grid.Resources>
+            <Storyboard x:Name="settingTransStoryboard">
+                <DoubleAnimation Storyboard.TargetName="settingTranslation"
+                                 Storyboard.TargetProperty="Y"
+                                 Duration="0:0:0.5">
+                    <DoubleAnimation.EasingFunction>
+                        <CircleEase EasingMode="EaseInOut" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+            </Storyboard>
+        </Grid.Resources>
+        <controls:NavigationView x:Name="nvShell"
+                                 Background="Transparent"
+                                 IsBackButtonVisible="Collapsed"
+                                 IsSettingsVisible="True"
+                                 PaneDisplayMode="Top"
+                                 SelectedItem="{x:Bind nviLocalWallpaper}"
+                                 SelectionChanged="nvShell_SelectionChanged"
+                                 SelectionFollowsFocus="Enabled"
+                                 Style="{StaticResource NavigationView.Style.Shell}">
+            <controls:NavigationView.MenuItems>
+                <controls:NavigationViewItem x:Name="nviLocalWallpaper"
+                                             x:Uid="Navigation_LocalWallpaper"
+                                             FontFamily="ms-appx:///Assets/Fonts/SourceHanSansSC-Bold.otf#思源黑体"
+                                             FontSize="16" />
+                <controls:NavigationViewItem x:Name="nviWallpaperStore"
+                                             x:Uid="Navigation_WallpaperStore"
+                                             FontFamily="ms-appx:///Assets/Fonts/SourceHanSansSC-Bold.otf#思源黑体"
+                                             FontSize="16" />
+            </controls:NavigationView.MenuItems>
+            <controls:NavigationView.AutoSuggestBox>
+                <AutoSuggestBox x:Uid="Navigation_SearchBox"
+                                MinWidth="200"
+                                QueryIcon="Find" />
+            </controls:NavigationView.AutoSuggestBox>
+            <Grid>
+                <Frame x:Name="contentFrame" />
+                <CommandBar x:Name="cbFlyout"
+                            Margin="15"
+                            Background="Transparent"
+                            DefaultLabelPosition="Right"
+                            IsOpen="False">
+                    <AppBarButton x:Name="abBtnAddwallpaper"
+                                  x:Uid="LocalWallpaper_Add"
+                                  Width="50"
+                                  Icon="Add"
+                                  LabelPosition="Collapsed">
+                        <ToolTipService.ToolTip>
+                            <TextBlock x:Uid="LocalWallpaper_Add_ToolTip" />
+                        </ToolTipService.ToolTip>
+                    </AppBarButton>
+                    <AppBarButton x:Name="abBtnDownloadWallpaper"
+                                  x:Uid="WallpaperStore_Download"
+                                  Width="50"
+                                  Icon="Download"
+                                  LabelPosition="Collapsed">
+                        <ToolTipService.ToolTip>
+                            <TextBlock x:Uid="WallpaperStore_Download_ToolTip" />
+                        </ToolTipService.ToolTip>
+                    </AppBarButton>
+                </CommandBar>
+                <controls:TeachingTip x:Name="teachTipAddLocalwapaper"
+                                      x:Uid="LocalWallpaper_TeachingTip_Add"
+                                      Target="{x:Bind abBtnAddwallpaper}">
                     <controls:TeachingTip.IconSource>
-                        <controls:SymbolIconSource Symbol="Refresh" />
+                        <controls:SymbolIconSource Symbol="Flag" />
                     </controls:TeachingTip.IconSource>
                 </controls:TeachingTip>
-            </StackPanel>
-
-        </controls:NavigationView.PaneFooter>
-        <Frame x:Name="contentFrame" />
-    </controls:NavigationView>
+            </Grid>
+        </controls:NavigationView>
+        <pages:SettingsControl>
+            <UserControl.RenderTransform>
+                <TranslateTransform x:Name="settingTranslation" />
+            </UserControl.RenderTransform>
+        </pages:SettingsControl>
+    </Grid>
 </Page>

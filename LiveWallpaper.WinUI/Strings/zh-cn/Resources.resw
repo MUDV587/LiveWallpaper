@@ -117,6 +117,27 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="LocalWallpaper_Add_ToolTip.Text" xml:space="preserve">
+    <value>添加壁纸</value>
+  </data>
+  <data name="LocalWallpaper_TeachingTip_Add.Subtitle" xml:space="preserve">
+    <value>从这里新增漂亮的本地壁纸</value>
+  </data>
+  <data name="LocalWallpaper_TeachingTip_Add.Title" xml:space="preserve">
+    <value>添加壁纸</value>
+  </data>
+  <data name="Navigation_LocalWallpaper.Content" xml:space="preserve">
+    <value>本地壁纸</value>
+    <comment>Local wallpaper navigation title</comment>
+  </data>
+  <data name="Navigation_SearchBox.PlaceholderText" xml:space="preserve">
+    <value>搜索您喜欢的壁纸...</value>
+    <comment>Search box hint text</comment>
+  </data>
+  <data name="Navigation_WallpaperStore.Content" xml:space="preserve">
+    <value>壁纸商店</value>
+    <comment>Wallpaper store navigation title</comment>
+  </data>
   <data name="Settings_Personalization.Text" xml:space="preserve">
     <value>个性化</value>
     <comment>Personalization text for Settings</comment>
@@ -136,5 +157,12 @@
   <data name="Settings_Theme_Light.Content" xml:space="preserve">
     <value>浅色主题</value>
     <comment>Light theme text for Settings</comment>
+  </data>
+  <data name="Settings_Title.Text" xml:space="preserve">
+    <value>设置</value>
+    <comment>Setting page title</comment>
+  </data>
+  <data name="WallpaperStore_Download_ToolTip.Text" xml:space="preserve">
+    <value>下载列表</value>
   </data>
 </root>
