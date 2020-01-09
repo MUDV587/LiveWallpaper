@@ -185,9 +185,9 @@ namespace LiveWallpaper.ViewModels
 
         public async void Preview()
         {
-            _preview = true;
             if (CurrentWallpaper != null)
             {
+                _preview = true;
                 //所有屏幕一起预览
                 _beforePreviewModel = new Dictionary<uint, WallpaperModel>(WallpaperManager.Instance.CurrentWalpapers);
                 await WallpaperManager.Instance.ShowWallpaper(new WallpaperModel()
